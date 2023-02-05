@@ -6,7 +6,7 @@
 
 ## 사용 기술 및 개발 환경
 
-+ Java, Spring Boot, IntelliJ, MyBatis, MySQL
++ Java, Spring Boot, IntelliJ, MyBatis, MySQL, Gradle, Docker
 
 ##  어플리케이션 UI
 더 많은 정보는 -> <https://ovenapp.io/view/yxrguTDcDgFMJPdlW2g6NkBRuiTP2EqJ/AKWFo>
