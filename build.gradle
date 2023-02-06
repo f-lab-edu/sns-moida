@@ -1,5 +1,7 @@
 plugins {
 	id 'java'
+
+	//spring
 	id 'org.springframework.boot' version '2.7.8'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
@@ -13,7 +15,19 @@ repositories {
 }
 
 dependencies {
+	//Spring
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter'
+
+	//Mybatis
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+
+	//Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
