@@ -1,0 +1,12 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ENC(RJxG2cp1957YBcZOascl8hTdUROmPZcR8s9nJaM5/OwNVCoIj9E/RnR+3lSGfxo2EZMWVcD4HsAZBgOKPdHKXNjULDvd+KvKKjfOhAG6Wlg+a/RAJbwDTCe+pe0KAEprQlImw1ypR8PAvNyd9BGByNJXmUJ+9hRrR3UBfPvhC6g=)
+    username: ENC(dkSWwgPbVTSIF607/lEdpQ==)
+    password: ENC(Yj3yX6sAVBOaFos921On3g==)
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**.xml

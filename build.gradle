@@ -6,7 +6,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'com.example'
+group = 'com.moida'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
@@ -14,21 +14,31 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	mybatis_version = '2.2.0'
+	mysql_version = '8.0.25'
+	jasypt_version = '3.0.4'
+}
+
 dependencies {
-	//Spring
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter'
 
-	//Mybatis
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+	// Spring
+	implementation "org.springframework.boot:spring-boot-starter-web"
+	implementation "org.springframework.boot:spring-boot-starter"
 
-	//Lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	// Mybatis
+	implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
+	implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatis_version"
 
-	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Lombok
+	compileOnly "org.projectlombok:lombok"
+	annotationProcessor "org.projectlombok:lombok"
+
+	runtimeOnly "mysql:mysql-connector-java:$mysql_version"
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+	// Jasypt
+	implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt_version"
 }
 
 tasks.named('test') {
