@@ -29,3 +29,7 @@
 + 회원 탈퇴 
 
 ##  프로젝트를 진행하며 해결한 이슈 또는 고민
+
+
+##  브랜치 관리
+![image](https://user-images.githubusercontent.com/87935169/217369676-b37d7d68-d1af-40d4-bbfc-0055317c6724.png)
