@@ -1,12 +1,13 @@
 package com.moida.mapper;
 
-import com.moida.dto.TestDto;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import com.moida.dto.TestDto;
 
 @Mapper
 public interface TestMapper {
 
-    List<TestDto> getUserList();
+	List<TestDto> getUserList();
 }

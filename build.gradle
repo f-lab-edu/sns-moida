@@ -34,7 +34,10 @@ dependencies {
 	compileOnly "org.projectlombok:lombok"
 	annotationProcessor "org.projectlombok:lombok"
 
+	// MySql
 	runtimeOnly "mysql:mysql-connector-java:$mysql_version"
+
+	// Test
 	testImplementation "org.springframework.boot:spring-boot-starter-test"
 
 	// Jasypt
