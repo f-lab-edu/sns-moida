@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moida.mapper.UserMapper">
+    <insert id="insertUser" parameterType="com.moida.model.user.UserSingUp">
+        insert into user(user_id, password, email, name, nickname, birth, profile_image_path, created_at, updated_at)
+        values (#{user_id}, #{password}, #{email}, #{name}, #{nickname}, #{birth}, #{profile_image_path}, NOW(),
+                NOW())
+    </insert>
+
+    <select id="duplicationUserId" parameterType="String" resultType="boolean">
+        select exists(SELECT user_id FROM user WHERE user_id = #{user_id})
+    </select>
+
+    <select id="duplicationEmail" parameterType="String" resultType="boolean">
+        select exists(SELECT email FROM user WHERE email = #{email})
+    </select>
+
+    <select id="getUserDtoList" resultType="com.moida.dto.UserDto">
+        SELECT *
+        FROM user;
+    </select>
+
+</mapper>

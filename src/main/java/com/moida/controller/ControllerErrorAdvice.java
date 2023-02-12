@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.moida.dto.ErrorResponse;
 import com.moida.exception.AccessDeniedException;
 import com.moida.exception.LoginFailException;
+import com.moida.exception.UserEmailDuplicationException;
+import com.moida.exception.UserIdDuplicationException;
 import com.moida.exception.UserNotFoundException;
 
 @RestControllerAdvice(basePackages = "com.moida.controller")
@@ -31,5 +33,17 @@ public class ControllerErrorAdvice {
 	public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException e) {
 		ErrorResponse response = new ErrorResponse(HttpStatus.FORBIDDEN, e.getMessage(), LocalDateTime.now());
 		return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+	}
+
+	@ExceptionHandler(UserEmailDuplicationException.class)
+	public ResponseEntity<ErrorResponse> handleUserEmailDuplication(UserEmailDuplicationException e) {
+		ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), LocalDateTime.now());
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(UserIdDuplicationException.class)
+	public ResponseEntity<ErrorResponse> handleUserUserIdDuplication(UserIdDuplicationException e) {
+		ErrorResponse response = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage(), LocalDateTime.now());
+		return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 	}
 }
