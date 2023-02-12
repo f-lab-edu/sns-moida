@@ -40,7 +40,7 @@ public class TestController {
 		return new TestDto();
 	}
 
-	@GetMapping("/user")
+	@GetMapping("/users")
 	public List<TestDto> user() {
 		return testService.getUserList();
 	}
