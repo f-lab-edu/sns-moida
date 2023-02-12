@@ -6,4 +6,5 @@ import com.moida.dto.TestDto;
 
 public interface TestService {
 	List<TestDto> getUserList();
+
 }

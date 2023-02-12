@@ -1,9 +1,9 @@
 plugins {
-	id 'java'
+    id 'java'
 
-	//spring
-	id 'org.springframework.boot' version '2.7.8'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    //spring
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.moida'
@@ -11,39 +11,42 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	mybatis_version = '2.2.0'
-	mysql_version = '8.0.25'
-	jasypt_version = '3.0.4'
+    mybatis_version = '2.2.0'
+    mysql_version = '8.0.25'
+    jasypt_version = '3.0.4'
 }
 
 dependencies {
 
-	// Spring
-	implementation "org.springframework.boot:spring-boot-starter-web"
-	implementation "org.springframework.boot:spring-boot-starter"
+    // Spring
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter"
 
-	// Mybatis
-	implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
-	implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatis_version"
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	// Lombok
-	compileOnly "org.projectlombok:lombok"
-	annotationProcessor "org.projectlombok:lombok"
+    // Mybatis
+    implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatis_version"
 
-	// MySql
-	runtimeOnly "mysql:mysql-connector-java:$mysql_version"
+    // Lombok
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
 
-	// Test
-	testImplementation "org.springframework.boot:spring-boot-starter-test"
+    // MySql
+    runtimeOnly "mysql:mysql-connector-java:$mysql_version"
 
-	// Jasypt
-	implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt_version"
+    // Test
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+    // Jasypt
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt_version"
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
