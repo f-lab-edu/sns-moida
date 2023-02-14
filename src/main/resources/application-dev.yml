@@ -9,4 +9,6 @@ spring:
     password: ENC(Yj3yX6sAVBOaFos921On3g==)
 
 mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
   mapper-locations: classpath:mybatis/mapper/**.xml
