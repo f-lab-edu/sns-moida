@@ -2,20 +2,42 @@ package com.moida.service;
 
 import java.util.List;
 
-import com.moida.dto.UserDto;
-import com.moida.model.user.UserSingUp;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface UserService {
+import com.moida.dto.UserDto;
+import com.moida.mapper.UserMapper;
+import com.moida.model.user.UserSingUp;
+import com.moida.repository.user.UserRepository;
+
+@Service
+public class UserService {
 
 	//회원가입
-	void signUpUser(UserSingUp userSingUp);
+	private final UserRepository userRepository;
 
-	// 중복된 유저아이디
-	boolean duplicationUserId(String userId);
+	//테스트 코드
+	private final UserMapper userMapper;
 
-	// 중복된 이메일
-	boolean duplicationEmail(String email);
+	public UserService(UserRepository userRepository, UserMapper userMapper) {
+		this.userRepository = userRepository;
+		this.userMapper = userMapper;
+	}
 
-	//유저리스트 가져오는 테스트
-	List<UserDto> getUserDtoList();
+	@Transactional
+	public void signUpUser(UserSingUp userSingUp) {
+		userRepository.insertUser(userSingUp);
+	}
+
+	public boolean duplicationUserId(String userId) {
+		return userRepository.duplicationUserId(userId);
+	}
+
+	public boolean duplicationEmail(String email) {
+		return userRepository.duplicationEmail(email);
+	}
+
+	public List<UserDto> getUserDtoList() {
+		return userRepository.getUserDtoList();
+	}
 }
