@@ -8,7 +8,7 @@ import lombok.Value;
 public class UserLogin {
 
 	@NotBlank
-	String user_id;
+	String userId;
 
 	@NotBlank
 	String password;

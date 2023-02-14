@@ -11,7 +11,7 @@ public interface UserService {
 	void signUpUser(UserSingUp userSingUp);
 
 	// 중복된 유저아이디
-	boolean duplicationUserId(String user_id);
+	boolean duplicationUserId(String userId);
 
 	// 중복된 이메일
 	boolean duplicationEmail(String email);

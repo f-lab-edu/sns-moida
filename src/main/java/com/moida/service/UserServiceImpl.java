@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean duplicationUserId(String user_id) {
-		return userRepository.duplicationUserId(user_id);
+	public boolean duplicationUserId(String userId) {
+		return userRepository.duplicationUserId(userId);
 	}
 
 	@Override

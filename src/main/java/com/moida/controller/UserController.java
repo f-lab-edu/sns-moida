@@ -35,10 +35,10 @@ public class UserController {
 	}
 
 	// 중복된 아이디
-	@GetMapping("/{user_id}/duplicateId")
+	@GetMapping("/{userId}/duplicateId")
 	@ResponseStatus(HttpStatus.CONFLICT)
-	public HttpStatus duplicationUserId(@PathVariable String user_id) {
-		userService.duplicationUserId(user_id);
+	public HttpStatus duplicationUserId(@PathVariable String userId) {
+		userService.duplicationUserId(userId);
 		return HttpStatus.CONFLICT;
 	}
 

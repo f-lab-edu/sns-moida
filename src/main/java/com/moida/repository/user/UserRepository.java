@@ -20,8 +20,8 @@ public class UserRepository {
 		userMapper.insertUser(userSingUp);
 	}
 
-	public boolean duplicationUserId(String user_id) {
-		return userMapper.duplicationUserId(user_id);
+	public boolean duplicationUserId(String userId) {
+		return userMapper.duplicationUserId(userId);
 	}
 
 	public boolean duplicationEmail(String email) {

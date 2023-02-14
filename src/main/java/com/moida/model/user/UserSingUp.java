@@ -18,7 +18,7 @@ user 회원가입
 public class UserSingUp {
 
 	@NotBlank
-	String user_id;
+	String userId;
 
 	@NotBlank
 	String password;
@@ -35,9 +35,9 @@ public class UserSingUp {
 
 	Date birth;
 
-	String profile_image_path;
+	String profileImagePath;
 
-	LocalDateTime created_at;
+	LocalDateTime createdAt;
 
-	LocalDateTime updated_at;
+	LocalDateTime updatedAt;
 }

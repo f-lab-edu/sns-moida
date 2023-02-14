@@ -15,7 +15,7 @@ public interface UserMapper {
 	void insertUser(UserSingUp userSingUp);
 
 	// 아이디 중복 검사
-	boolean duplicationUserId(String user_id);
+	boolean duplicationUserId(String userId);
 
 	// 이메일 중복 검사
 	boolean duplicationEmail(String email);

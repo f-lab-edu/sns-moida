@@ -14,7 +14,7 @@ public class UserDto {
 
 	private int id;
 
-	private String user_id;
+	private String userId;
 
 	private String password;
 
@@ -26,24 +26,24 @@ public class UserDto {
 
 	private Date birth;
 
-	private String profile_image_path;
+	private String profileImagePath;
 
-	private LocalDateTime created_at;
+	private LocalDateTime createdAt;
 
-	private LocalDateTime updated_at;
+	private LocalDateTime updatedAt;
 
 	@Builder
-	public UserDto(int id, String user_id, String password, String email, String name, String nickname, Date birth,
-		String profile_image_path, LocalDateTime created_at, LocalDateTime updated_at) {
+	public UserDto(int id, String userId, String password, String email, String name, String nickname, Date birth,
+		String profileImagePath, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
-		this.user_id = user_id;
+		this.userId = userId;
 		this.password = password;
 		this.email = email;
 		this.name = name;
 		this.nickname = nickname;
 		this.birth = birth;
-		this.profile_image_path = profile_image_path;
-		this.created_at = created_at;
-		this.updated_at = updated_at;
+		this.profileImagePath = profileImagePath;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 }
