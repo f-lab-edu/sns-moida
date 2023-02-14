@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moida.dto.TestDto;
-import com.moida.exception.AccessDeniedException;
-import com.moida.exception.LoginFailException;
-import com.moida.exception.UserNotFoundException;
+import com.moida.exception.ErrorCode;
+import com.moida.exception.exception.AccessDeniedException;
+import com.moida.exception.exception.LoginFailException;
+import com.moida.exception.exception.UserNotFoundException;
 import com.moida.service.TestService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,18 +30,18 @@ public class TestController {
 	public TestDto getTestDto(@PathVariable("id") String id) {
 
 		if (id.equals("forbidden")) {
-			throw new AccessDeniedException();
+			throw new AccessDeniedException(ErrorCode.ACCESS_DENIED);
 		}
 		if (id.equals("bad")) {
-			throw new LoginFailException();
+			throw new LoginFailException(ErrorCode.LOGIN_FAIL);
 		}
 		if (id.equals("not")) {
-			throw new UserNotFoundException(id);
+			throw new UserNotFoundException(ErrorCode.USER_NOT_EXIST);
 		}
 		return new TestDto();
 	}
 
-	@GetMapping("/users")
+	@GetMapping("/userss")
 	public List<TestDto> user() {
 		return testService.getUserList();
 	}

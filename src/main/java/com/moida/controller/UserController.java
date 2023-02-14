@@ -1,10 +1,13 @@
 package com.moida.controller;
 
+import static com.moida.util.HttpResponse.*;
+
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,33 +24,39 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
 	private final UserService userService;
 
 	// 회원가입
-	@PostMapping("/signup")
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public HttpStatus userSingUp(@RequestBody @Valid UserSingUp userSingUp) {
+	public ResponseEntity<Void> userSingUp(@RequestBody @Valid UserSingUp userSingUp) {
 		userService.signUpUser(userSingUp);
-		return HttpStatus.CREATED;
+		return CREATE;
 	}
 
 	// 중복된 아이디
-	@GetMapping("/{userId}/duplicateId")
-	@ResponseStatus(HttpStatus.CONFLICT)
-	public HttpStatus duplicationUserId(@PathVariable String userId) {
-		userService.duplicationUserId(userId);
-		return HttpStatus.CONFLICT;
+	@GetMapping("/{userId}")
+	public ResponseEntity<Void> duplicationUserId(@PathVariable String userId) {
+		boolean duplicated = userService.duplicationUserId(userId);
+
+		if (duplicated) {
+			return CONFLICT;
+		}
+		return OK;
 	}
 
 	// 중복된 이메일
-	@GetMapping("/{email}/duplicateEmail")
-	@ResponseStatus(HttpStatus.CONFLICT)
-	public HttpStatus duplicationEmail(@PathVariable String email) {
-		userService.duplicationEmail(email);
-		return HttpStatus.CONFLICT;
+	@GetMapping("/{email}")
+	public ResponseEntity<Void> duplicationEmail(@PathVariable String email) {
+		boolean duplicated = userService.duplicationEmail(email);
+
+		if (duplicated) {
+			return CONFLICT;
+		}
+		return OK;
 	}
 
 	// 유저 리스트 반환
