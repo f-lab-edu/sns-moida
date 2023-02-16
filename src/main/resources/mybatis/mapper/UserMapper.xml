@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moida.mapper.UserMapper">
-    <insert id="insertUser" parameterType="com.moida.model.user.UserSingUp">
+    <insert id="insertUser" parameterType="com.moida.model.user.request.SingUpRequest">
         insert into user(user_id, password, email, name, nickname, birth, profile_image_path, created_at, updated_at)
         values (#{userId}, #{password}, #{email}, #{name}, #{nickname}, #{birth}, #{profileImagePath}, NOW(),
                 NOW())
     </insert>
 
-    <select id="duplicationUserId" parameterType="String" resultType="boolean">
+    <select id="findByUserId" parameterType="String" resultType="boolean">
         select exists(SELECT user_id FROM user WHERE user_id = #{userId})
     </select>
 
-    <select id="duplicationEmail" parameterType="String" resultType="boolean">
+    <select id="findByUserEmail" parameterType="String" resultType="boolean">
         select exists(SELECT email FROM user WHERE email = #{email})
     </select>
 

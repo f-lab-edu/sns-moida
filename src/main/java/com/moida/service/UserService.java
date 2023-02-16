@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.moida.dto.UserDto;
 import com.moida.mapper.UserMapper;
-import com.moida.model.user.UserSingUp;
+import com.moida.model.user.request.SingUpRequest;
 import com.moida.repository.user.UserRepository;
 
 @Service
@@ -24,17 +24,18 @@ public class UserService {
 		this.userMapper = userMapper;
 	}
 
+	// 회원가입
 	@Transactional
-	public void signUpUser(UserSingUp userSingUp) {
-		userRepository.insertUser(userSingUp);
+	public void signUpUser(SingUpRequest request) {
+		userRepository.insertUser(request);
 	}
 
 	public boolean duplicationUserId(String userId) {
-		return userRepository.duplicationUserId(userId);
+		return userRepository.findByUserId(userId);
 	}
 
 	public boolean duplicationEmail(String email) {
-		return userRepository.duplicationEmail(email);
+		return userRepository.findByUserEmail(email);
 	}
 
 	public List<UserDto> getUserDtoList() {

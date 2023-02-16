@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moida.dto.UserDto;
-import com.moida.model.user.UserSingUp;
+import com.moida.model.user.request.SingUpRequest;
 import com.moida.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,10 +32,17 @@ public class UserController {
 	// 회원가입
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Void> userSingUp(@RequestBody @Valid UserSingUp userSingUp) {
-		userService.signUpUser(userSingUp);
+	public ResponseEntity<Void> userSingUp(@RequestBody @Valid SingUpRequest singUpRequest) {
+		userService.signUpUser(singUpRequest);
 		return CREATE;
 	}
+
+	// 로그인
+	// @PostMapping("/login")
+	// public ResponseEntity<Void> user(@RequestBody @Valid LoginRequest loginRequest) {
+	// 	userService.loginUser(loginRequest);
+	// 	return OK;
+	// }
 
 	// 중복된 아이디
 	@GetMapping("/{userId}")
