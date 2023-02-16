@@ -12,3 +12,16 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: classpath:mybatis/mapper/**.xml
+
+logging:
+  pattern:
+    file: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
+  file:
+    name: /logs/history.log
+  level:
+    org:
+      springframework: INFO
+  logback:
+    rolling policy:
+      file-name-pattern: "/logs/history.%d{yyyy-MM-dd}.%i"
+      max-history: 30
