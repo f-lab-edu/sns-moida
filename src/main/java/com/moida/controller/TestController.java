@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moida.dto.TestDto;
-import com.moida.exception.ErrorCode;
 import com.moida.exception.exception.AccessDeniedException;
 import com.moida.exception.exception.LoginFailException;
 import com.moida.exception.exception.UserNotFoundException;
@@ -30,13 +29,13 @@ public class TestController {
 	public TestDto getTestDto(@PathVariable("id") String id) {
 
 		if (id.equals("forbidden")) {
-			throw new AccessDeniedException(ErrorCode.ACCESS_DENIED);
+			throw new AccessDeniedException();
 		}
 		if (id.equals("bad")) {
-			throw new LoginFailException(ErrorCode.LOGIN_FAIL);
+			throw new LoginFailException();
 		}
 		if (id.equals("not")) {
-			throw new UserNotFoundException(ErrorCode.USER_NOT_EXIST);
+			throw new UserNotFoundException();
 		}
 		return new TestDto();
 	}

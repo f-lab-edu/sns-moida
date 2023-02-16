@@ -1,15 +1,37 @@
 package com.moida.exception.exception;
 
-import com.moida.exception.ErrorCode;
+import org.springframework.http.HttpStatus;
+
+import com.moida.exception.BaseException;
 
 import lombok.Getter;
 
 @Getter
-public class UserNotFoundException extends RuntimeException {
+public class UserNotFoundException extends BaseException {
 
-	private final ErrorCode errorCode;
-
-	public UserNotFoundException(ErrorCode errorCode) {
-		this.errorCode = errorCode;
+	public UserNotFoundException() {
 	}
+
+	public UserNotFoundException(String message) {
+		super(message);
+	}
+
+	public UserNotFoundException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public UserNotFoundException(Throwable cause) {
+		super(cause);
+	}
+
+	@Override
+	public HttpStatus getStatus() {
+		return HttpStatus.NOT_FOUND;
+	}
+
+	@Override
+	public String getMessage() {
+		return "유저를 찾을 수 없습니다.";
+	}
+
 }
