@@ -1,8 +1,8 @@
-package com.moida.exception.exception;
+package com.moida.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.moida.exception.BaseException;
+import com.moida.exception.base.BaseException;
 
 import lombok.Getter;
 

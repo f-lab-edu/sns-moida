@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.moida.dto.UserDto;
+import com.moida.domain.User;
 import com.moida.mapper.UserMapper;
-import com.moida.model.user.request.SingUpRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,19 +15,27 @@ public class UserRepository {
 
 	private final UserMapper userMapper;
 
-	public void insertUser(SingUpRequest userSingUp) {
-		userMapper.insertUser(userSingUp);
+	public void insert(User user) {
+		userMapper.insert(user);
 	}
 
-	public boolean findByUserId(String userId) {
+	public void update(User user) {
+		userMapper.update(user);
+	}
+
+	public User findByUserId(String userId) {
 		return userMapper.findByUserId(userId);
 	}
 
-	public boolean findByUserEmail(String email) {
+	public User findByUserEmail(String email) {
 		return userMapper.findByUserEmail(email);
 	}
 
-	public List<UserDto> getUserDtoList() {
-		return userMapper.getUserDtoList();
+	public void delete(String userId) {
+		userMapper.delete(userId);
+	}
+
+	public List<User> findUserList() {
+		return userMapper.findUserList();
 	}
 }

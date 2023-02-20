@@ -2,21 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.moida.mapper.UserMapper">
-    <insert id="insertUser" parameterType="com.moida.model.user.request.SingUpRequest">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.moida.request.SingUpRequest">
         insert into user(user_id, password, email, name, nickname, birth, profile_image_path, created_at, updated_at)
         values (#{userId}, #{password}, #{email}, #{name}, #{nickname}, #{birth}, #{profileImagePath}, NOW(),
                 NOW())
     </insert>
 
-    <select id="findByUserId" parameterType="String" resultType="boolean">
-        select exists(SELECT user_id FROM user WHERE user_id = #{userId})
+    <update id="update" parameterType="com.moida.request.UpdateUserRequest">
+        UPDATE user
+        SET name               = #{name},
+            nickname           = #{nickname},
+            birth              = #{birth},
+            profile_image_path = #{profileImagePath},
+            updated_at         = NOW()
+        WHERE user_id = #{userId}
+    </update>
+
+
+    <select id="findByUserId" parameterType="String" resultType="com.moida.domain.User">
+        select id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        from user
+        WHERE user_id = #{user_id}
     </select>
 
-    <select id="findByUserEmail" parameterType="String" resultType="boolean">
-        select exists(SELECT email FROM user WHERE email = #{email})
+    <select id="findByUserEmail" parameterType="String" resultType="com.moida.domain.User">
+        select id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        from user
+        WHERE email = #{email}
     </select>
 
-    <select id="getUserDtoList" resultType="com.moida.dto.UserDto">
+    <delete id="delete" parameterType="String">
+        DELETE
+        FROM user
+        WHERE user_id = #{user_id}
+    </delete>
+
+    <select id="findUserList" resultType="com.moida.domain.User">
         SELECT *
         FROM user;
     </select>

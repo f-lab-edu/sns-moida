@@ -1,4 +1,4 @@
-package com.moida.exception;
+package com.moida.response;
 
 import java.time.LocalDateTime;
 

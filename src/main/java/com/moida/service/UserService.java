@@ -5,10 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.moida.dto.UserDto;
+import com.moida.domain.User;
+import com.moida.exception.DuplicatedEmailException;
+import com.moida.exception.DuplicatedIdException;
 import com.moida.mapper.UserMapper;
-import com.moida.model.user.request.SingUpRequest;
 import com.moida.repository.user.UserRepository;
+import com.moida.request.SingUpRequest;
+import com.moida.request.UpdateUserRequest;
+import com.moida.response.SignUpResponse;
+import com.moida.response.UpdateUserResponse;
 
 @Service
 public class UserService {
@@ -24,21 +29,43 @@ public class UserService {
 		this.userMapper = userMapper;
 	}
 
-	// 회원가입
 	@Transactional
-	public void signUpUser(SingUpRequest request) {
-		userRepository.insertUser(request);
+	public SignUpResponse create(SingUpRequest request) {
+		User user = request.toUser();
+
+		if (userRepository.findByUserId(request.getUserId()) != null) {
+			throw new DuplicatedIdException();
+		}
+
+		if (userRepository.findByUserEmail(request.getEmail()) != null) {
+			throw new DuplicatedEmailException();
+		}
+
+		userRepository.insert(user);
+
+		User savedUser = userRepository.findByUserId(user.getUserId());
+		return savedUser.toSingUpResponse();
 	}
 
-	public boolean duplicationUserId(String userId) {
+	@Transactional
+	public UpdateUserResponse modifyUser(String userId, UpdateUserRequest request) {
+		User user = request.toUser();
+
+		userRepository.update(user);
+
+		User updateUser = userRepository.findByUserId(userId);
+		return updateUser.toUpdateResponse();
+	}
+
+	public User getUserById(String userId) {
 		return userRepository.findByUserId(userId);
 	}
 
-	public boolean duplicationEmail(String email) {
-		return userRepository.findByUserEmail(email);
+	public List<User> getUserList() {
+		return userRepository.findUserList();
 	}
 
-	public List<UserDto> getUserDtoList() {
-		return userRepository.getUserDtoList();
+	public void remove(String userId) {
+		userRepository.delete(userId);
 	}
 }

@@ -1,4 +1,4 @@
-package com.moida.util;
+package com.moida.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moida.dto.TestDto;
-import com.moida.exception.exception.AccessDeniedException;
-import com.moida.exception.exception.LoginFailException;
-import com.moida.exception.exception.UserNotFoundException;
+import com.moida.exception.AccessDeniedException;
+import com.moida.exception.LoginFailException;
+import com.moida.exception.UserNotFoundException;
 import com.moida.service.TestService;
 
 import lombok.RequiredArgsConstructor;

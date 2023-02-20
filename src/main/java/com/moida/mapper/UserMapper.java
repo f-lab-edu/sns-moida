@@ -4,24 +4,20 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.moida.dto.UserDto;
-import com.moida.model.user.request.LoginRequest;
-import com.moida.model.user.request.SingUpRequest;
+import com.moida.domain.User;
 
 @Mapper
 public interface UserMapper {
 
-	// 회원가입
-	void insertUser(SingUpRequest singUpRequest);
+	void insert(User user);
 
-	// 아이디 중복 검사
-	boolean findByUserId(String userId);
+	void update(User user);
 
-	// 이메일 중복 검사
-	boolean findByUserEmail(String email);
+	User findByUserId(String userId);
 
-	// 로그인
-	void login(LoginRequest loginRequest);
+	User findByUserEmail(String email);
 
-	List<UserDto> getUserDtoList();
+	void delete(String userId);
+
+	List<User> findUserList();
 }

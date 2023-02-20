@@ -1,6 +1,8 @@
-package com.moida.model.user.request;
+package com.moida.request;
 
 import javax.validation.constraints.NotBlank;
+
+import com.moida.response.LoginResponse;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -20,5 +22,11 @@ public class LoginRequest {
 	public LoginRequest(String userId, String password) {
 		this.userId = userId;
 		this.password = password;
+	}
+
+	public LoginResponse toResponse() {
+		return new LoginResponse(
+			this.userId,
+			this.password);
 	}
 }

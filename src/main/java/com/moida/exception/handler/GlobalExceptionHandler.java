@@ -1,4 +1,4 @@
-package com.moida.exception;
+package com.moida.exception.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,6 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.moida.exception.base.BaseException;
+import com.moida.response.ErrorResponse;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice(basePackages = "com.moida.controller")
 public class GlobalExceptionHandler {
 
@@ -22,8 +28,10 @@ public class GlobalExceptionHandler {
 	/*
 	예상치 못한 예외 처리
 	 */
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleException(Exception ex) {
+		log.error("");
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 

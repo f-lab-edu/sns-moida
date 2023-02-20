@@ -1,17 +1,18 @@
-package com.moida.dto;
+package com.moida.domain;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+
+import com.moida.response.SignUpResponse;
+import com.moida.response.UpdateUserResponse;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
 @NoArgsConstructor
-public class UserDto {
-
+public class User {
 	private int id;
 
 	private String userId;
@@ -33,7 +34,7 @@ public class UserDto {
 	private LocalDateTime updatedAt;
 
 	@Builder
-	public UserDto(int id, String userId, String password, String email, String name, String nickname, Date birth,
+	public User(int id, String userId, String password, String email, String name, String nickname, Date birth,
 		String profileImagePath, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.userId = userId;
@@ -45,5 +46,25 @@ public class UserDto {
 		this.profileImagePath = profileImagePath;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+	}
+
+	public SignUpResponse toSingUpResponse() {
+		return SignUpResponse.builder()
+			.userId(userId)
+			.password(password)
+			.email(email)
+			.name(name)
+			.nickname(nickname)
+			.birth(birth)
+			.build();
+	}
+
+	public UpdateUserResponse toUpdateResponse() {
+		return UpdateUserResponse.builder()
+			.name(name)
+			.nickname(nickname)
+			.birth(birth)
+			.profileImagePath(profileImagePath)
+			.build();
 	}
 }

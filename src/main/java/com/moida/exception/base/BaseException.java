@@ -1,4 +1,4 @@
-package com.moida.exception;
+package com.moida.exception.base;
 
 import org.springframework.http.HttpStatus;
 
