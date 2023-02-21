@@ -2,6 +2,8 @@ package com.moida.response;
 
 import java.sql.Date;
 
+import com.moida.domain.User;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +32,16 @@ public class SignUpResponse {
 		this.name = name;
 		this.nickname = nickname;
 		this.birth = birth;
+	}
+
+	public static SignUpResponse from(User user) {
+		return SignUpResponse.builder()
+			.userId(user.getUserId())
+			.password(user.getPassword())
+			.email(user.getEmail())
+			.name(user.getName())
+			.nickname(user.getNickname())
+			.birth(user.getBirth())
+			.build();
 	}
 }

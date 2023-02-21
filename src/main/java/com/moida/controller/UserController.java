@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.moida.domain.User;
 import com.moida.request.SingUpRequest;
 import com.moida.request.UpdateUserRequest;
-import com.moida.response.SignUpResponse;
-import com.moida.response.UpdateUserResponse;
+import com.moida.response.UserResponse;
 import com.moida.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,22 +33,23 @@ public class UserController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<SignUpResponse> create(@RequestBody @Valid SingUpRequest request) {
-		SignUpResponse response = userService.create(request);
+	public ResponseEntity<UserResponse> create(@RequestBody @Valid SingUpRequest request) {
+		UserResponse response = userService.create(request);
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	@PatchMapping("/{userId}")
-	public ResponseEntity<UpdateUserResponse> modify(@PathVariable String userId,
+	public ResponseEntity<UserResponse> modify(@PathVariable String userId,
 		@RequestBody @Valid UpdateUserRequest request) {
-		UpdateUserResponse response = userService.modifyUser(userId, request);
+		UserResponse response = userService.modifyUser(userId, request);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/{userId}")
-	public ResponseEntity<User> getUserById(@PathVariable String userId) {
+	public ResponseEntity<UserResponse> getUserById(@PathVariable String userId) {
 		User user = userService.getUserById(userId);
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		UserResponse userResponse = UserResponse.from(user);
+		return new ResponseEntity<>(userResponse, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{userId}")

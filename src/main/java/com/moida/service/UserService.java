@@ -12,8 +12,7 @@ import com.moida.mapper.UserMapper;
 import com.moida.repository.user.UserRepository;
 import com.moida.request.SingUpRequest;
 import com.moida.request.UpdateUserRequest;
-import com.moida.response.SignUpResponse;
-import com.moida.response.UpdateUserResponse;
+import com.moida.response.UserResponse;
 
 @Service
 public class UserService {
@@ -30,7 +29,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public SignUpResponse create(SingUpRequest request) {
+	public UserResponse create(SingUpRequest request) {
 		User user = request.toUser();
 
 		if (userRepository.findByUserId(request.getUserId()) != null) {
@@ -44,17 +43,17 @@ public class UserService {
 		userRepository.insert(user);
 
 		User savedUser = userRepository.findByUserId(user.getUserId());
-		return savedUser.toSingUpResponse();
+		return UserResponse.from(savedUser);
 	}
 
 	@Transactional
-	public UpdateUserResponse modifyUser(String userId, UpdateUserRequest request) {
+	public UserResponse modifyUser(String userId, UpdateUserRequest request) {
 		User user = request.toUser();
 
 		userRepository.update(user);
 
 		User updateUser = userRepository.findByUserId(userId);
-		return updateUser.toUpdateResponse();
+		return UserResponse.from(updateUser);
 	}
 
 	public User getUserById(String userId) {
