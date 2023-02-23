@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.moida.domain.User;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,22 +14,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserResponse {
 
+	@Schema(description = "사용자 아이디", example = "AFK150")
 	private String userId;
 
+	@Schema(description = "비밀번호", example = "1234asdf")
 	private String password;
 
+	@Schema(description = "이메일", example = "xodnzlzl1597@gmail.com")
 	private String email;
 
+	@Schema(description = "회원 이름", example = "김태우")
 	private String name;
 
+	@Schema(description = "닉네임", example = "ririti")
 	private String nickname;
 
+	@Schema(description = "생년월일", example = "yyyy-mm-dd")
 	private Date birth;
 
+	@Schema(description = "파일저장 위치", example = "C:\\Users\\Documents\\Black Desert")
 	private String profileImagePath;
 
+	@Schema(description = "생성 일자", example = "1996-05-13")
 	private LocalDateTime createdAt;
 
+	@Schema(description = "수정 일자", example = "2023-02-23")
 	private LocalDateTime updatedAt;
 
 	@Builder
