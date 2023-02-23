@@ -15,6 +15,8 @@
 
 ## ERD 
 
+https://dbdiagram.io/d/63d0976b296d97641d7be9af
+
 ![image](https://user-images.githubusercontent.com/92068596/216750775-f7009cc0-9c6c-459b-9ae1-9df17b104dd2.png)
 
 ## 구현 하고자 하는 기능 
