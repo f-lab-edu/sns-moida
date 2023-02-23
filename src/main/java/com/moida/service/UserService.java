@@ -8,8 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.moida.domain.User;
 import com.moida.exception.DuplicatedEmailException;
 import com.moida.exception.DuplicatedIdException;
-import com.moida.mapper.UserMapper;
-import com.moida.repository.user.UserRepository;
+import com.moida.repository.UserRepository;
 import com.moida.request.SingUpRequest;
 import com.moida.request.UpdateUserRequest;
 import com.moida.response.UserResponse;
@@ -17,15 +16,10 @@ import com.moida.response.UserResponse;
 @Service
 public class UserService {
 
-	//회원가입
 	private final UserRepository userRepository;
 
-	//테스트 코드
-	private final UserMapper userMapper;
-
-	public UserService(UserRepository userRepository, UserMapper userMapper) {
+	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
-		this.userMapper = userMapper;
 	}
 
 	@Transactional
@@ -50,7 +44,7 @@ public class UserService {
 	public UserResponse modifyUser(String userId, UpdateUserRequest request) {
 		User user = request.toUser();
 
-		userRepository.update(user);
+		userRepository.update(userId, user);
 
 		User updateUser = userRepository.findByUserId(userId);
 		return UserResponse.from(updateUser);

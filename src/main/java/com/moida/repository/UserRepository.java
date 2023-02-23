@@ -1,4 +1,4 @@
-package com.moida.repository.user;
+package com.moida.repository;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class UserRepository {
 		userMapper.insert(user);
 	}
 
-	public void update(User user) {
-		userMapper.update(user);
+	public void update(String userId, User user) {
+		userMapper.update(userId, user);
 	}
 
 	public User findByUserId(String userId) {

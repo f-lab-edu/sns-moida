@@ -3,6 +3,7 @@ package com.moida.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.moida.domain.User;
 
@@ -11,7 +12,7 @@ public interface UserMapper {
 
 	void insert(User user);
 
-	void update(User user);
+	void update(@Param("userId") String userId, @Param("user") User user);
 
 	User findByUserId(String userId);
 
