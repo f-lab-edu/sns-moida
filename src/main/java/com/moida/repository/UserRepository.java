@@ -1,6 +1,7 @@
 package com.moida.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -37,5 +38,9 @@ public class UserRepository {
 
 	public List<User> findUserList() {
 		return userMapper.findUserList();
+	}
+
+	public Optional<User> findByUserIdAndPassword(String userId, String password) {
+		return userMapper.findByUserIdAndPassword(userId, password);
 	}
 }

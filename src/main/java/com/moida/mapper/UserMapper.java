@@ -1,6 +1,7 @@
 package com.moida.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,4 +22,6 @@ public interface UserMapper {
 	void delete(String userId);
 
 	List<User> findUserList();
+
+	Optional<User> findByUserIdAndPassword(@Param("userId") String userId, @Param("password") String password);
 }

@@ -38,7 +38,7 @@ public class UserController {
 	private final UserService userService;
 
 	@Operation(summary = "회원 가입 요청", description = "회원 가입을 합니다.")
-	@ApiResponse(code = 201, message = "ok")
+	@ApiResponse(code = 201, message = "created")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<UserResponse> create(@RequestBody @Valid SingUpRequest request) {

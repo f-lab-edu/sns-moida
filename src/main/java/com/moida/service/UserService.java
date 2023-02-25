@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.moida.config.PasswordEncoder;
 import com.moida.domain.User;
 import com.moida.exception.DuplicatedEmailException;
 import com.moida.exception.DuplicatedIdException;
@@ -17,13 +18,17 @@ import com.moida.response.UserResponse;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Transactional
 	public UserResponse create(SingUpRequest request) {
+		request.encryptPassword(passwordEncoder);
+
 		User user = request.toUser();
 
 		if (userRepository.findByUserId(request.getUserId()) != null) {

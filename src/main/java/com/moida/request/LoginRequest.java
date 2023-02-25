@@ -2,14 +2,15 @@ package com.moida.request;
 
 import javax.validation.constraints.NotBlank;
 
-import com.moida.response.LoginResponse;
+import com.moida.config.PasswordEncoder;
+import com.moida.domain.User;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Value;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Value
+@NoArgsConstructor
 public class LoginRequest {
 
 	@NotBlank(message = "아이디를 입력해주세요")
@@ -24,9 +25,15 @@ public class LoginRequest {
 		this.password = password;
 	}
 
-	public LoginResponse toResponse() {
-		return new LoginResponse(
-			this.userId,
-			this.password);
+	public User toUser() {
+		return User.builder()
+			.userId(userId)
+			.password(password)
+			.build();
+	}
+
+	public void encryptPassword(PasswordEncoder passwordEncoder) {
+		String encryption = passwordEncoder.encrypt(this.password);
+		this.password = encryption;
 	}
 }

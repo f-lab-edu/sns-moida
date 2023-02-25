@@ -5,6 +5,7 @@ import java.sql.Date;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.moida.config.PasswordEncoder;
 import com.moida.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,10 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/*
-user 회원가입
-
-*/
 @Getter
 @NoArgsConstructor
 public class SingUpRequest {
@@ -63,5 +60,10 @@ public class SingUpRequest {
 			.nickname(nickname)
 			.birth(birth)
 			.build();
+	}
+
+	public void encryptPassword(PasswordEncoder passwordEncoder) {
+		String encryption = passwordEncoder.encrypt(this.password);
+		this.password = encryption;
 	}
 }

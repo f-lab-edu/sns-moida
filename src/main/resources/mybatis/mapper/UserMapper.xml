@@ -61,4 +61,11 @@
         FROM user;
     </select>
 
+    <select id="findByUserIdAndPassword" resultType="com.moida.domain.User">
+        SELECT *
+        FROM user
+        WHERE user_id = #{userId}
+          AND password = #{password}
+    </select>
+
 </mapper>
