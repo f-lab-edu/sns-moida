@@ -4,6 +4,7 @@ plugins {
     //spring
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'checkstyle'
 }
 
 group = 'com.moida'
@@ -54,4 +55,11 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+checkstyle {
+    maxWarnings = 0
+    configFile = file("${rootDir}/naver-checkstyle-rules.xml")
+    configProperties = ["suppressionFile": "${rootDir}/naver-checkstyle-suppressions.xml"]
+    toolVersion = "10.4"
 }
