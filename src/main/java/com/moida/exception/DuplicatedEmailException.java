@@ -7,20 +7,19 @@ import com.moida.exception.base.BaseException;
 import lombok.Getter;
 
 @Getter
-public class LoginFailException extends BaseException {
-
-	public LoginFailException() {
+public class DuplicatedEmailException extends BaseException {
+	public DuplicatedEmailException() {
 	}
 
-	public LoginFailException(String message) {
+	public DuplicatedEmailException(String message) {
 		super(message);
 	}
 
-	public LoginFailException(String message, Throwable cause) {
+	public DuplicatedEmailException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public LoginFailException(Throwable cause) {
+	public DuplicatedEmailException(Throwable cause) {
 		super(cause);
 	}
 
@@ -31,6 +30,6 @@ public class LoginFailException extends BaseException {
 
 	@Override
 	public String getMessage() {
-		return "아이디와 비밀번호를 다시한번 확인해주세요.";
+		return "중복된 이메일 입니다.";
 	}
 }

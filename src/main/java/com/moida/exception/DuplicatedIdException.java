@@ -7,20 +7,19 @@ import com.moida.exception.base.BaseException;
 import lombok.Getter;
 
 @Getter
-public class LoginFailException extends BaseException {
-
-	public LoginFailException() {
+public class DuplicatedIdException extends BaseException {
+	public DuplicatedIdException() {
 	}
 
-	public LoginFailException(String message) {
+	public DuplicatedIdException(String message) {
 		super(message);
 	}
 
-	public LoginFailException(String message, Throwable cause) {
+	public DuplicatedIdException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public LoginFailException(Throwable cause) {
+	public DuplicatedIdException(Throwable cause) {
 		super(cause);
 	}
 
@@ -31,6 +30,6 @@ public class LoginFailException extends BaseException {
 
 	@Override
 	public String getMessage() {
-		return "아이디와 비밀번호를 다시한번 확인해주세요.";
+		return "중복된 아이디 입니다.";
 	}
 }

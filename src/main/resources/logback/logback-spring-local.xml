@@ -1,0 +1,6 @@
+<included>
+    <!-- local 환경에서는 console에 로그 출력 -->
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</included>
