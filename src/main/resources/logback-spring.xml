@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 로그 출력 대상 지정 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- local 환경 설정 -->
+    <springProfile name="local">
+        <include resource="logback/logback-spring-local.xml"/>
+    </springProfile>
+
+    <!-- dev 환경 설정 -->
+    <springProfile name="dev">
+        <include resource="logback/logback-spring-dev.xml"/>
+    </springProfile>
+
+    <!-- prod 환경 설정 -->
+    <springProfile name="prod">
+        <include resource="logback/logback-spring-prod.xml"/>
+    </springProfile>
+
+</configuration>

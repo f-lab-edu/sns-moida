@@ -1,22 +1,67 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.8'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+
+    //spring
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
+    // checkstyle
+    id 'checkstyle'
 }
 
-group = 'com.example'
+group = 'com.moida'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
+}
+
+ext {
+    mybatis_version = '2.2.0'
+    mysql_version = '8.0.25'
+    jasypt_version = '3.0.4'
+    swagger_version = '3.0.0'
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Spring
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter"
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Mybatis
+    implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$mybatis_version"
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok"
+    annotationProcessor "org.projectlombok:lombok"
+
+    // MySql
+    runtimeOnly "mysql:mysql-connector-java:$mysql_version"
+
+    // Test
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+
+    //Swagger
+    implementation "io.springfox:springfox-boot-starter:$swagger_version"
+    implementation "io.springfox:springfox-swagger-ui:$swagger_version"
+
+    // Jasypt
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt_version"
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+checkstyle {
+    maxWarnings = 0
+    configFile = file("${rootDir}/naver-checkstyle-rules.xml")
+    configProperties = ["suppressionFile": "${rootDir}/naver-checkstyle-suppressions.xml"]
+    toolVersion = "10.4"
 }

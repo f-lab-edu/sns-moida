@@ -1,0 +1,17 @@
+# default
+spring:
+  profiles:
+    active: local
+
+---
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+
+---
+
+spring:
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
