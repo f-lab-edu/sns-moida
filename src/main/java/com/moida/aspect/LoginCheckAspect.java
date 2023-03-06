@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.moida.exception.LoginFailException;
+import com.moida.exception.LoginRequiredException;
 
 @Component
 @Aspect
@@ -30,7 +30,7 @@ public class LoginCheckAspect {
 		String userId = (String)session.getAttribute(request.getParameter("userId"));
 
 		if (userId == null) {
-			throw new LoginFailException("로그인이 필요합니다.");
+			throw new LoginRequiredException();
 		}
 	}
 }
