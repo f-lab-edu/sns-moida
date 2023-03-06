@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moida.mapper.FeedMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.moida.domain.Feed">
+        insert into feed(user_id, content, created_at, updated_at)
+        values (#{userId}, #{content}, NOW(), NOW());
+    </insert>
+
+    <update id="update" parameterType="com.moida.domain.Feed">
+        update feed
+        set content    = #{feed.content},
+            updated_at = NOW()
+        where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete
+        from feed
+        where id = #{id};
+    </delete>
+
+    <select id="findByFeedId" parameterType="int" resultType="com.moida.domain.Feed">
+        select id,
+               user_id,
+               content,
+               created_at,
+               updated_at
+        from feed
+        where id = #{id};
+    </select>
+
+    <select id="findByUserFeedList" resultType="com.moida.domain.Feed">
+        select *
+        from feed;
+    </select>
+
+</mapper>
