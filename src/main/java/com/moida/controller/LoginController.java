@@ -11,29 +11,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moida.request.LoginRequest;
-import com.moida.response.UserResponse;
+import com.moida.response.LoginResponse;
 import com.moida.service.LoginService;
+import com.moida.utill.JwtUtil;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @Tag(name = "login-controller", description = "로그인 API")
 @RestController
 @RequestMapping
+@RequiredArgsConstructor
 public class LoginController {
 
 	private final LoginService loginService;
 
-	public LoginController(LoginService loginService) {
-		this.loginService = loginService;
-	}
+	private final JwtUtil jwtUtil;
 
 	@Operation(summary = "로그인 요청", description = "로그인 됩니다.")
 	@ApiResponse(code = 200, message = "ok")
 	@PostMapping("/login")
-	public ResponseEntity<UserResponse> login(@RequestBody @Valid LoginRequest request) {
-		UserResponse response = loginService.login(request);
+	public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
+		LoginResponse response = loginService.login(request);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 

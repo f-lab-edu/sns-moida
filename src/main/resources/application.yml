@@ -15,3 +15,14 @@ spring:
   mvc:
     path match:
       matching-strategy: ant_path_matcher
+
+---
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+
+jwt:
+  secret: "12345678901234567890123456789010"

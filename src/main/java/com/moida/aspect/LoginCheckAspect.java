@@ -1,32 +1,37 @@
 package com.moida.aspect;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.moida.exception.LoginRequiredException;
-import com.moida.request.FeedRequest;
+import com.moida.utill.JwtUtil;
 
-@Component
 @Aspect
+@Component
 public class LoginCheckAspect {
 
-	private final HttpSession session;
+	private JwtUtil jwtUtil;
 
-	public LoginCheckAspect(HttpSession session) {
-		this.session = session;
+	public LoginCheckAspect(JwtUtil jwtUtil) {
+		this.jwtUtil = jwtUtil;
 	}
 
 	@Before("@annotation(com.moida.annotation.LoginCheck)")
 	public void checkLogin(JoinPoint joinPoint) {
+		ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = attributes.getRequest();
+		String token = request.getHeader("Authorization");
 
-		String userId = (String)session.getAttribute(((FeedRequest)joinPoint.getArgs()[0]).getUserId());
-
-		if (userId == null) {
+		if (token == null || !token.startsWith("Bearer ")) {
 			throw new LoginRequiredException();
 		}
+
+		jwtUtil.decode(token.substring((7)));
 	}
 }
