@@ -22,6 +22,7 @@ ext {
     mysql_version = '8.0.25'
     jasypt_version = '3.0.4'
     swagger_version = '3.0.0'
+    jwt_version = '0.11.5'
 }
 
 dependencies {
@@ -51,8 +52,16 @@ dependencies {
     implementation "io.springfox:springfox-boot-starter:$swagger_version"
     implementation "io.springfox:springfox-swagger-ui:$swagger_version"
 
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
     // Jasypt
     implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt_version"
+
+    //JWT
+    implementation "io.jsonwebtoken:jjwt-api:$jwt_version"
+    implementation "io.jsonwebtoken:jjwt-impl:$jwt_version"
+    implementation "io.jsonwebtoken:jjwt-jackson:$jwt_version"
 }
 
 tasks.named('test') {

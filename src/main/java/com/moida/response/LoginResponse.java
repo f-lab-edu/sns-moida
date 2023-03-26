@@ -8,13 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginResponse {
 
-	String userId;
+	private String userId;
 
-	String password;
+	private String password;
+
+	private String accessToken;
 
 	@Builder
-	public LoginResponse(String userId, String password) {
+	public LoginResponse(String userId, String password, String accessToken) {
 		this.userId = userId;
 		this.password = password;
+		this.accessToken = accessToken;
 	}
 }
