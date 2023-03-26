@@ -17,9 +17,6 @@ public class UserResponse {
 	@Schema(description = "사용자 아이디", example = "AFK150")
 	private String userId;
 
-	@Schema(description = "비밀번호", example = "1234asdf")
-	private String password;
-
 	@Schema(description = "이메일", example = "xodnzlzl1597@gmail.com")
 	private String email;
 
@@ -42,10 +39,9 @@ public class UserResponse {
 	private LocalDateTime updatedAt;
 
 	@Builder
-	public UserResponse(String userId, String password, String email, String name, String nickname, Date birth,
+	public UserResponse(String userId, String email, String name, String nickname, Date birth,
 		String profileImagePath, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.userId = userId;
-		this.password = password;
 		this.email = email;
 		this.name = name;
 		this.nickname = nickname;
@@ -58,7 +54,6 @@ public class UserResponse {
 	public static UserResponse from(User user) {
 		return UserResponse.builder()
 			.userId(user.getUserId())
-			.password(user.getPassword())
 			.email(user.getEmail())
 			.name(user.getName())
 			.nickname(user.getNickname())

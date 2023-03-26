@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moida.mapper.CommentMapper">
+
+    <resultMap id="commentResultMap" type="com.moida.domain.Comment">
+        <id property="id" column="id"/>
+        <result property="feedId" column="feed_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- 기본 조회 컬럼 -->
+    <sql id="commentColumns">
+        id, feed_id, user_id, content, created_at, updated_at
+    </sql>
+
+    <insert id="insert" parameterType="com.moida.domain.Comment" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        INSERT INTO comment (feed_id,
+                             user_id,
+                             content,
+                             created_at,
+                             updated_at)
+        VALUES (#{feedId},
+                #{userId},
+                #{content},
+                NOW(),
+                NOW())
+    </insert>
+
+    <update id="update">
+        UPDATE comment
+        SET content    = #{comment.content},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM comment
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 피드별 댓글 삭제 -->
+    <delete id="deleteByFeedId" parameterType="int">
+        DELETE
+        FROM comment
+        WHERE feed_id = #{feedId}
+    </delete>
+
+    <!-- 사용자별 댓글 삭제 -->
+    <delete id="deleteByUserId" parameterType="string">
+        DELETE
+        FROM comment
+        WHERE user_id = #{userId}
+    </delete>
+
+    <!-- ID로 댓글 조회 -->
+    <select id="findByCommentId" parameterType="int" resultMap="commentResultMap">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment
+        WHERE id = #{id}
+    </select>
+
+    <!-- 피드별 댓글 조회 (시간순 정렬) -->
+    <select id="findByFeedId" parameterType="int" resultMap="commentResultMap">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment
+        WHERE feed_id = #{feedId}
+        ORDER BY created_at ASC
+    </select>
+
+    <!-- 사용자별 댓글 조회 (최신순 정렬) -->
+    <select id="findByUserId" parameterType="string" resultMap="commentResultMap">
+        SELECT
+        <include refid="commentColumns"/>
+        FROM comment
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 피드별 댓글 개수 조회 -->
+    <select id="countByFeedId" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM comment
+        WHERE feed_id = #{feedId}
+    </select>
+
+    <!-- 사용자별 댓글 개수 조회 -->
+    <select id="countByUserId" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM comment
+        WHERE user_id = #{userId}
+    </select>
+
+    <!--    &lt;!&ndash; 피드별 댓글 조회 (페이징) &ndash;&gt;
+        <select id="findByFeedIdWithPaging" resultMap="commentResultMap">
+            SELECT
+            <include refid="commentColumns"/>
+            FROM comment
+            WHERE feed_id = #{feedId}
+            ORDER BY created_at ASC
+            LIMIT #{offset}, #{limit}
+        </select>
+
+        &lt;!&ndash; 최근 댓글 조회 &ndash;&gt;
+        <select id="findRecentComments" parameterType="int" resultMap="commentResultMap">
+            SELECT
+            <include refid="commentColumns"/>
+            FROM comment
+            ORDER BY created_at DESC
+            LIMIT #{limit}
+        </select>
+
+        &lt;!&ndash; 특정 기간 댓글 조회 &ndash;&gt;
+        <select id="findByDateRange" resultMap="commentResultMap">
+            SELECT
+            <include refid="commentColumns"/>
+            FROM comment
+            WHERE created_at BETWEEN #{startDate} AND #{endDate}
+            ORDER BY created_at DESC
+        </select>
+
+        &lt;!&ndash; 특정 사용자의 특정 피드 댓글 조회 &ndash;&gt;
+        <select id="findByFeedIdAndUserId" resultMap="commentResultMap">
+            SELECT
+            <include refid="commentColumns"/>
+            FROM comment
+            WHERE feed_id = #{feedId}
+            AND user_id = #{userId}
+            ORDER BY created_at ASC
+        </select>
+
+        &lt;!&ndash; 댓글이 있는 피드 ID 목록 조회 &ndash;&gt;
+        <select id="findFeedIdsWithComments" resultType="int">
+            SELECT DISTINCT feed_id
+            FROM comment
+            ORDER BY feed_id
+        </select>
+
+        &lt;!&ndash; 댓글을 작성한 사용자 ID 목록 조회 &ndash;&gt;
+        <select id="findUserIdsWithComments" resultType="string">
+            SELECT DISTINCT user_id
+            FROM comment
+            ORDER BY user_id
+        </select>
+
+        &lt;!&ndash; 특정 키워드가 포함된 댓글 검색 &ndash;&gt;
+        <select id="findByContentContaining" resultMap="commentResultMap">
+            SELECT
+            <include refid="commentColumns"/>
+            FROM comment
+            WHERE content LIKE CONCAT('%', #{keyword}, '%')
+            ORDER BY created_at DESC
+        </select>
+
+        &lt;!&ndash; 피드별 댓글 통계 (댓글 수, 최근 댓글 시간) &ndash;&gt;
+        <select id="getCommentStatsByFeedId" parameterType="int" resultType="map">
+            SELECT feed_id,
+                   COUNT(*)        AS comment_count,
+                   MAX(created_at) AS latest_comment_time,
+                   MIN(created_at) AS first_comment_time
+            FROM comment
+            WHERE feed_id = #{feedId}
+            GROUP BY feed_id
+        </select>
+
+        &lt;!&ndash; 사용자별 댓글 통계 &ndash;&gt;
+        <select id="getCommentStatsByUserId" parameterType="string" resultType="map">
+            SELECT user_id,
+                   COUNT(*)        AS comment_count,
+                   MAX(created_at) AS latest_comment_time,
+                   MIN(created_at) AS first_comment_time
+            FROM comment
+            WHERE user_id = #{userId}
+            GROUP BY user_id
+        </select>
+
+        &lt;!&ndash; 일별 댓글 수 통계 &ndash;&gt;
+        <select id="getDailyCommentStats" resultType="map">
+            SELECT DATE(created_at) AS comment_date,
+                   COUNT(*)         AS comment_count
+            FROM comment
+            WHERE created_at BETWEEN #{startDate} AND #{endDate}
+            GROUP BY DATE(created_at)
+            ORDER BY comment_date DESC
+        </select>
+
+        &lt;!&ndash; 월별 댓글 수 통계 &ndash;&gt;
+        <select id="getMonthlyCommentStats" resultType="map">
+            SELECT YEAR(created_at)  AS comment_year,
+                   MONTH(created_at) AS comment_month,
+                   COUNT(*)          AS comment_count
+            FROM comment
+            WHERE created_at BETWEEN #{startDate} AND #{endDate}
+            GROUP BY YEAR(created_at), MONTH(created_at)
+            ORDER BY comment_year DESC, comment_month DESC
+        </select>
+
+        &lt;!&ndash; 가장 활발한 사용자 TOP N &ndash;&gt;
+        <select id="getTopActiveUsers" parameterType="int" resultType="map">
+            SELECT user_id,
+                   COUNT(*)        AS comment_count,
+                   MAX(created_at) AS latest_activity
+            FROM comment
+            GROUP BY user_id
+            ORDER BY comment_count DESC, latest_activity DESC
+            LIMIT #{limit}
+        </select>
+
+        &lt;!&ndash; 가장 댓글이 많은 피드 TOP N &ndash;&gt;
+        <select id="getTopCommentedFeeds" parameterType="int" resultType="map">
+            SELECT feed_id,
+                   COUNT(*)        AS comment_count,
+                   MAX(created_at) AS latest_comment
+            FROM comment
+            GROUP BY feed_id
+            ORDER BY comment_count DESC, latest_comment DESC
+            LIMIT #{limit}
+        </select>
+
+        &lt;!&ndash; 특정 기간 동안 수정된 댓글 조회 &ndash;&gt;
+        <select id="findEditedCommentsByDateRange" resultMap="commentResultMap">
+            SELECT
+            <include refid="commentColumns"/>
+            FROM comment
+            WHERE updated_at BETWEEN #{startDate} AND #{endDate}
+            AND created_at != updated_at
+            ORDER BY updated_at DESC
+        </select>
+
+        &lt;!&ndash; 댓글 내용 길이별 통계 &ndash;&gt;
+        <select id="getCommentLengthStats" resultType="map">
+            SELECT CASE
+                       WHEN CHAR_LENGTH(content) &lt;= 10 THEN 'SHORT'
+                       WHEN CHAR_LENGTH(content) &lt;= 50 THEN 'MEDIUM'
+                       WHEN CHAR_LENGTH(content) &lt;= 100 THEN 'LONG'
+                       ELSE 'VERY_LONG'
+                       END                   AS length_category,
+                   COUNT(*)                  AS count,
+                   AVG(CHAR_LENGTH(content)) AS avg_length
+            FROM comment
+            GROUP BY length_category
+            ORDER BY avg_length
+        </select>
+
+        &lt;!&ndash; 댓글 있는지 확인 (EXISTS 체크) &ndash;&gt;
+        <select id="existsById" parameterType="int" resultType="boolean">
+            SELECT EXISTS(SELECT 1
+                          FROM comment
+                          WHERE id = #{id})
+        </select>
+
+        &lt;!&ndash; 특정 피드에 댓글이 있는지 확인 &ndash;&gt;
+        <select id="existsByFeedId" parameterType="int" resultType="boolean">
+            SELECT EXISTS(SELECT 1
+                          FROM comment
+                          WHERE feed_id = #{feedId})
+        </select>
+
+        &lt;!&ndash; 특정 사용자가 특정 피드에 댓글을 작성했는지 확인 &ndash;&gt;
+        <select id="existsByFeedIdAndUserId" resultType="boolean">
+            SELECT EXISTS(SELECT 1
+                          FROM comment
+                          WHERE feed_id = #{feedId}
+                            AND user_id = #{userId})
+        </select>
+
+        &lt;!&ndash; 배치 삽입 (여러 댓글 한번에 삽입) &ndash;&gt;
+        <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+            INSERT INTO comment (feed_id, user_id, content, created_at, updated_at)
+            VALUES
+            <foreach collection="list" item="comment" separator=",">
+                (#{comment.feedId}, #{comment.userId}, #{comment.content}, NOW(), NOW())
+            </foreach>
+        </insert>
+
+        &lt;!&ndash; 조건부 업데이트 (내용이 실제로 변경된 경우만) &ndash;&gt;
+        <update id="updateIfContentChanged">
+            UPDATE comment
+            SET content    = #{comment.content},
+                updated_at = NOW()
+            WHERE id = #{id}
+              AND content != #{comment.content}
+        </update>-->
+
+</mapper>

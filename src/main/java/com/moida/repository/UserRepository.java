@@ -43,4 +43,20 @@ public class UserRepository {
 	public Optional<User> findByUserIdAndPassword(String userId, String password) {
 		return userMapper.findByUserIdAndPassword(userId, password);
 	}
+
+	public List<User> searchByKeyword(String keyword) {
+		return userMapper.searchByKeyword(keyword);
+	}
+
+	public List<User> searchByName(String name) {
+		return userMapper.searchByName(name);
+	}
+
+	public List<User> searchByNickname(String nickname) {
+		return userMapper.searchByNickname(nickname);
+	}
+
+	public List<User> findRecentUsers(int limit) {
+		return userMapper.findRecentUsers(limit);
+	}
 }

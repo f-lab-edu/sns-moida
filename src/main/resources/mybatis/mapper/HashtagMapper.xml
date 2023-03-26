@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moida.mapper.HashtagMapper">
+
+    <insert id="insertHashtag" useGeneratedKeys="true" keyProperty="id" parameterType="com.moida.domain.Hashtag">
+        INSERT INTO hashtag (name, count, created_at)
+        VALUES (#{name}, 1, NOW())
+    </insert>
+
+    <update id="incrementHashtagCount" parameterType="string">
+        UPDATE hashtag
+        SET count = count + 1
+        WHERE name = #{name}
+    </update>
+
+    <select id="findByName" parameterType="string" resultType="com.moida.domain.Hashtag">
+        SELECT id, name, count, created_at
+        FROM hashtag
+        WHERE name = #{name}
+    </select>
+
+    <insert id="insertFeedHashtag">
+        INSERT INTO feed_hashtag (feed_id, hashtag_id, created_at)
+        VALUES (#{feedId}, #{hashtagId}, NOW())
+    </insert>
+
+    <select id="findPopularHashtags" parameterType="int" resultType="string">
+        SELECT name
+        FROM hashtag
+        WHERE count > 0
+        ORDER BY count DESC, created_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="findPopularHashtagsWithCount" parameterType="int" resultType="com.moida.domain.Hashtag">
+        SELECT id, name, count, created_at
+        FROM hashtag
+        WHERE count > 0
+        ORDER BY count DESC, created_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <delete id="deleteFeedHashtagsByFeedId" parameterType="int">
+        DELETE FROM feed_hashtag
+        WHERE feed_id = #{feedId}
+    </delete>
+
+</mapper>

@@ -9,7 +9,7 @@ public class HttpResponse {
 	public static final ResponseEntity<Void> BAD_REQUEST = new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 	public static final ResponseEntity<Void> CONFLICT = new ResponseEntity<Void>(HttpStatus.CONFLICT);
 	public static final ResponseEntity<Void> CREATE = new ResponseEntity<Void>(HttpStatus.CREATED);
-	public static final ResponseEntity<Void> UNAUTHORIZED = new ResponseEntity(HttpStatus.UNAUTHORIZED);
-	public static final ResponseEntity<Void> NOT_FOUND = new ResponseEntity(HttpStatus.NOT_FOUND);
+	public static final ResponseEntity<Void> UNAUTHORIZED = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	public static final ResponseEntity<Void> NOT_FOUND = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 }

@@ -34,4 +34,21 @@ public class FeedRepository {
 	public List<Feed> findByUserFeedList() {
 		return feedMapper.findByUserFeedList();
 	}
+
+	public List<Feed> findByUserId(String userId) {
+		return feedMapper.findByUserId(userId);
+	}
+
+	public List<Feed> findByHashtag(String hashtag) {
+		return feedMapper.findByHashtag(hashtag);
+	}
+
+	public List<Feed> findByContentContaining(String keyword) {
+		return feedMapper.findByContentContaining(keyword);
+	}
+
+	public List<Feed> findByKeyword(String keyword) {
+		return feedMapper.findByKeyword(keyword);
+	}
+
 }

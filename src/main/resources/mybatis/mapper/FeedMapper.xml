@@ -4,36 +4,88 @@
 <mapper namespace="com.moida.mapper.FeedMapper">
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.moida.domain.Feed">
-        insert into feed(user_id, content, created_at, updated_at)
-        values (#{userId}, #{content}, NOW(), NOW());
+        INSERT INTO feed(user_id, content, created_at, updated_at)
+        VALUES (#{userId}, #{content}, NOW(), NOW())
     </insert>
 
     <update id="update" parameterType="com.moida.domain.Feed">
-        update feed
-        set content    = #{feed.content},
+        UPDATE feed
+        SET content = #{feed.content},
             updated_at = NOW()
-        where id = #{id};
+        WHERE id = #{id}
     </update>
 
     <delete id="delete" parameterType="int">
-        delete
-        from feed
-        where id = #{id};
+        DELETE FROM feed
+        WHERE id = #{id}
     </delete>
 
     <select id="findByFeedId" parameterType="int" resultType="com.moida.domain.Feed">
-        select id,
+        SELECT id,
                user_id,
                content,
                created_at,
                updated_at
-        from feed
-        where id = #{id};
+        FROM feed
+        WHERE id = #{id}
     </select>
 
     <select id="findByUserFeedList" resultType="com.moida.domain.Feed">
-        select *
-        from feed;
+        SELECT id,
+               user_id,
+               content,
+               created_at,
+               updated_at
+        FROM feed
+        ORDER BY created_at DESC
     </select>
+
+    <select id="findByUserId" parameterType="string" resultType="com.moida.domain.Feed">
+        SELECT id,
+               user_id,
+               content,
+               created_at,
+               updated_at
+        FROM feed
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 해시태그로 검색 -->
+    <select id="findByHashtag" parameterType="string" resultType="com.moida.domain.Feed">
+        SELECT DISTINCT f.id, f.user_id, f.content, f.created_at, f.updated_at
+        FROM feed f
+        LEFT JOIN feed_hashtag fh ON f.id = fh.feed_id
+        LEFT JOIN hashtag h ON fh.hashtag_id = h.id
+        WHERE (h.name = #{hashtag} OR f.content LIKE CONCAT('%#', #{hashtag}, '%'))
+        ORDER BY f.created_at DESC;
+    </select>
+
+    <!-- 내용으로 검색 -->
+    <select id="findByContentContaining" parameterType="string" resultType="com.moida.domain.Feed">
+        SELECT id, user_id, content, created_at, updated_at
+        FROM feed
+        WHERE content LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY created_at DESC;
+    </select>
+
+    <!-- 전체 검색 (해시태그 + 내용) - 해시태그 우선, 정확한 매칭만 -->
+    <select id="findByKeyword" parameterType="string" resultType="com.moida.domain.Feed">
+        SELECT DISTINCT f.id, f.user_id, f.content, f.created_at, f.updated_at,
+               CASE
+                   WHEN h.name = #{keyword} THEN 1                           -- 정확한 해시태그 매칭
+                   WHEN f.content LIKE CONCAT('%#', #{keyword}, '%') THEN 2  -- 피드 내 #태그 매칭
+                   ELSE 3
+               END as search_priority
+        FROM feed f
+        LEFT JOIN feed_hashtag fh ON f.id = fh.feed_id
+        LEFT JOIN hashtag h ON fh.hashtag_id = h.id
+        WHERE (
+            h.name = #{keyword}                                    -- 1. 정확한 해시태그명 매칭
+            OR f.content LIKE CONCAT('%#', #{keyword}, '%')        -- 2. 피드 내용의 #키워드 매칭
+          )
+        ORDER BY search_priority ASC, f.created_at DESC;
+    </select>
+
 
 </mapper>

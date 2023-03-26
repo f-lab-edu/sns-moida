@@ -25,7 +25,7 @@ class JasyptConfigTest {
 	void jasypt() {
 		String url = "jdbc:mysql://localhost:8800/project";
 		String username = "example";
-		String password = "example2";
+		String password = "Ehdaud1597!";
 
 		String encryptUrl = jasyptEncrypt(url);
 		String encryptUsername = jasyptEncrypt(username);

@@ -1,33 +1,30 @@
 package com.moida.request;
 
-import javax.validation.constraints.NotBlank;
-
 import com.moida.domain.Feed;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class FeedRequest {
-
-	@NotBlank
-	String userId;
+public class UpdateFeedRequest {
 
 	@NotBlank
 	String content;
 
 	@Builder
-	public FeedRequest(String userId, String content) {
-		this.userId = userId;
+	public UpdateFeedRequest(String content) {
 		this.content = content;
 	}
 
-	public Feed toFeed() {
+	public Feed toFeed(Feed existingFeed) {
 		return Feed.builder()
-			.userId(userId)
+			.id(existingFeed.getId())
+			.userId(existingFeed.getUserId())
 			.content(content)
+			.createdAt(existingFeed.getCreatedAt())
 			.build();
 	}
 }

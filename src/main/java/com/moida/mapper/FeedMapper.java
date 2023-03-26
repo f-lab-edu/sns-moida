@@ -16,7 +16,15 @@ public interface FeedMapper {
 
 	void delete(int id);
 
-	Feed findByFeedId(Integer id);
+	Feed findByFeedId(int id);
 
 	List<Feed> findByUserFeedList();
+
+	List<Feed> findByUserId(@Param("userId") String userId);
+	
+	List<Feed> findByHashtag(@Param("hashtag") String hashtag);
+
+	List<Feed> findByContentContaining(@Param("keyword") String keyword);
+
+	List<Feed> findByKeyword(@Param("keyword") String keyword);
 }

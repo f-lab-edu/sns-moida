@@ -1,10 +1,9 @@
 package com.moida.request;
 
-import javax.validation.constraints.NotBlank;
-
 import com.moida.config.PasswordEncoder;
 import com.moida.domain.User;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,6 @@ public class LoginRequest {
 	}
 
 	public void encryptPassword(PasswordEncoder passwordEncoder) {
-		String encryption = passwordEncoder.encrypt(this.password);
-		this.password = encryption;
+		this.password = passwordEncoder.encrypt(this.password);
 	}
 }

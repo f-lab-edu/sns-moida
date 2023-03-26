@@ -1,6 +1,7 @@
 package com.moida.config;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -31,7 +32,7 @@ public class PasswordEncoder {
 		throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
 		MessageDigest digest = MessageDigest.getInstance("SHA-512");
-		byte[] keyBytes = password.getBytes("UTF-8");
+		byte[] keyBytes = password.getBytes(StandardCharsets.UTF_8);
 
 		return digest.digest(keyBytes);
 	}

@@ -28,4 +28,5 @@ public class Feed {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
+
 }

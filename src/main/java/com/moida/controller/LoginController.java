@@ -1,7 +1,5 @@
 package com.moida.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +13,10 @@ import com.moida.response.LoginResponse;
 import com.moida.service.LoginService;
 import com.moida.utill.JwtUtil;
 
-import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "login-controller", description = "로그인 API")
@@ -31,7 +30,7 @@ public class LoginController {
 	private final JwtUtil jwtUtil;
 
 	@Operation(summary = "로그인 요청", description = "로그인 됩니다.")
-	@ApiResponse(code = 200, message = "ok")
+	@ApiResponse(responseCode = "200", description = "ok")
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
 		LoginResponse response = loginService.login(request);
@@ -39,7 +38,7 @@ public class LoginController {
 	}
 
 	@Operation(summary = "로그아웃 요청", description = "로그아웃 됩니다.")
-	@ApiResponse(code = 204, message = "no content")
+	@ApiResponse(responseCode = "204", description = "logout")
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout() {
 		loginService.logout();

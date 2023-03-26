@@ -1,7 +1,5 @@
 package com.moida.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 
 import com.moida.config.PasswordEncoder;
@@ -12,25 +10,18 @@ import com.moida.request.LoginRequest;
 import com.moida.response.LoginResponse;
 import com.moida.utill.JwtUtil;
 
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
 	private final HttpSession session;
-
 	private final UserRepository userRepository;
-
 	private final PasswordEncoder passwordEncoder;
-
 	private final JwtUtil jwtUtil;
-
-	public LoginService(HttpSession session, UserRepository userRepository, PasswordEncoder passwordEncoder,
-		JwtUtil jwtUtil) {
-		this.session = session;
-		this.userRepository = userRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.jwtUtil = jwtUtil;
-	}
-
+	
 	public LoginResponse login(LoginRequest request) {
 		request.encryptPassword(passwordEncoder);
 

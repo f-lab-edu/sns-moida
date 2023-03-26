@@ -26,3 +26,21 @@ spring:
 
 jwt:
   secret: "12345678901234567890123456789010"
+
+
+---
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  openapi:
+    info:
+      title: SNS 서비스 API
+      description: SNS 서비스 API 명세서
+      version: V0.1
+      contact:
+        name: ririti
+        url: https://velog.io/@ririti
+        email: xodnzlzl1597@gmail.com

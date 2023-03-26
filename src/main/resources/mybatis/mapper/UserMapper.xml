@@ -21,7 +21,7 @@
 
 
     <select id="findByUserId" parameterType="String" resultType="com.moida.domain.User">
-        select id,
+        SELECT id,
                user_id,
                password,
                email,
@@ -31,8 +31,8 @@
                profile_image_path,
                created_at,
                updated_at
-        from user
-        WHERE user_id = #{user_id}
+        FROM user
+        WHERE user_id = #{userId}
     </select>
 
     <select id="findByUserEmail" parameterType="String" resultType="com.moida.domain.User">
@@ -51,21 +51,108 @@
     </select>
 
     <delete id="delete" parameterType="String">
-        DELETE
-        FROM user
-        WHERE user_id = #{user_id}
+        DELETE FROM user
+        WHERE user_id = #{userId}
     </delete>
 
     <select id="findUserList" resultType="com.moida.domain.User">
-        SELECT *
-        FROM user;
+        SELECT id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        FROM user
+        ORDER BY created_at DESC
     </select>
 
     <select id="findByUserIdAndPassword" resultType="com.moida.domain.User">
-        SELECT *
+        SELECT id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
         FROM user
         WHERE user_id = #{userId}
           AND password = #{password}
+    </select>
+
+    <!-- 키워드로 사용자 검색 (이름 또는 닉네임에서 LIKE 검색) -->
+    <select id="searchByKeyword" parameterType="String" resultType="com.moida.domain.User">
+        SELECT id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        FROM user
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+           OR nickname LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 이름으로 사용자 검색 -->
+    <select id="searchByName" parameterType="String" resultType="com.moida.domain.User">
+        SELECT id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        FROM user
+        WHERE name LIKE CONCAT('%', #{name}, '%')
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 닉네임으로 사용자 검색 -->
+    <select id="searchByNickname" parameterType="String" resultType="com.moida.domain.User">
+        SELECT id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        FROM user
+        WHERE nickname LIKE CONCAT('%', #{nickname}, '%')
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 최근 가입한 사용자들 조회 (추천 사용자용) -->
+    <select id="findRecentUsers" parameterType="int" resultType="com.moida.domain.User">
+        SELECT id,
+               user_id,
+               password,
+               email,
+               name,
+               nickname,
+               birth,
+               profile_image_path,
+               created_at,
+               updated_at
+        FROM user
+        ORDER BY created_at DESC
+        LIMIT #{limit}
     </select>
 
 </mapper>

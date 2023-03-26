@@ -2,11 +2,10 @@ package com.moida.request;
 
 import java.sql.Date;
 
-import javax.validation.constraints.NotBlank;
-
 import com.moida.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,12 +36,17 @@ public class UpdateUserRequest {
 		this.profileImagePath = profileImagePath;
 	}
 
-	public User toUser() {
+	public User toUser(User existingUser) {
 		return User.builder()
-			.name(name)
-			.nickname(nickname)
-			.birth(birth)
-			.profileImagePath(profileImagePath)
+			.id(existingUser.getId())
+			.userId(existingUser.getUserId())
+			.password(existingUser.getPassword())
+			.email(existingUser.getEmail())
+			.name(name)  // 업데이트할 필드
+			.nickname(nickname)  // 업데이트할 필드
+			.birth(birth)  // 업데이트할 필드
+			.profileImagePath(profileImagePath)  // 업데이트할 필드
+			.createdAt(existingUser.getCreatedAt())
 			.build();
 	}
 }

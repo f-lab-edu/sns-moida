@@ -2,20 +2,19 @@ package com.moida.request;
 
 import java.sql.Date;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-
 import com.moida.config.PasswordEncoder;
 import com.moida.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SingUpRequest {
+public class CreateUserRequest {
 
 	@Schema(description = "사용자 아이디", example = "AFK150")
 	@NotBlank(message = "아이디를 입력해주세요")
@@ -42,7 +41,7 @@ public class SingUpRequest {
 	Date birth;
 
 	@Builder
-	public SingUpRequest(String userId, String password, String name, String email, String nickname, Date birth) {
+	public CreateUserRequest(String userId, String password, String name, String email, String nickname, Date birth) {
 		this.userId = userId;
 		this.password = password;
 		this.email = email;
@@ -51,10 +50,10 @@ public class SingUpRequest {
 		this.birth = birth;
 	}
 
-	public User toUser() {
+	public User toUser(String encryptedPassword) {
 		return User.builder()
 			.userId(userId)
-			.password(password)
+			.password(encryptedPassword)
 			.email(email)
 			.name(name)
 			.nickname(nickname)
@@ -62,8 +61,4 @@ public class SingUpRequest {
 			.build();
 	}
 
-	public void encryptPassword(PasswordEncoder passwordEncoder) {
-		String encryption = passwordEncoder.encrypt(this.password);
-		this.password = encryption;
-	}
 }

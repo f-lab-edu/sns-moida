@@ -4,5 +4,6 @@
     <mappers>
         <mapper resource="UserMapper.xml"/>
         <mapper resource="FeedMapper.xml"/>
+        <mapper resource="CommentMapper.xml"/>
     </mappers>
 </configuration>

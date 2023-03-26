@@ -24,4 +24,12 @@ public interface UserMapper {
 	List<User> findUserList();
 
 	Optional<User> findByUserIdAndPassword(@Param("userId") String userId, @Param("password") String password);
+
+	List<User> searchByKeyword(@Param("keyword") String keyword);
+
+	List<User> searchByName(@Param("name") String name);
+
+	List<User> searchByNickname(@Param("nickname") String nickname);
+
+	List<User> findRecentUsers(@Param("limit") int limit);
 }
