@@ -60,7 +60,8 @@ public class FeedController {
 	@ApiResponse(code = 200, message = "ok")
 	@LoginCheck
 	@PatchMapping("/{id}")
-	public ResponseEntity<FeedResponse> modify(@PathVariable int id, @RequestBody @Valid FeedRequest request) {
+	public ResponseEntity<FeedResponse> modify(@PathVariable int id,
+		@RequestBody @Valid FeedRequest request) {
 		Feed feed = feedService.getFeedId(id);
 		if (feed == null) {
 			throw new FeedNotFoundException();
@@ -86,5 +87,4 @@ public class FeedController {
 			.map(FeedResponse::from)
 			.collect(Collectors.toList());
 	}
-
 }

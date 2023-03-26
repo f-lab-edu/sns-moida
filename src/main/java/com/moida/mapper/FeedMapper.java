@@ -16,7 +16,7 @@ public interface FeedMapper {
 
 	void delete(int id);
 
-	Feed findByFeedId(Integer id);
+	Feed findByFeedId(int id);
 
 	List<Feed> findByUserFeedList();
 }
