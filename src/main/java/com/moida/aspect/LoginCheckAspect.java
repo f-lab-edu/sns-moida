@@ -2,13 +2,13 @@ package com.moida.aspect;
 
 import java.util.Objects;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.moida.exception.InvalidTokenException;
 import com.moida.exception.LoginRequiredException;
 import com.moida.utill.JwtUtil;
 
@@ -22,14 +22,14 @@ public class LoginCheckAspect {
 	private static final String BEARER_PREFIX = "Bearer ";
 	private static final int BEARER_PREFIX_LENGTH = BEARER_PREFIX.length();
 
-	private JwtUtil jwtUtil;
+	private final JwtUtil jwtUtil;
 
 	public LoginCheckAspect(JwtUtil jwtUtil) {
 		this.jwtUtil = jwtUtil;
 	}
 
 	@Before("@annotation(com.moida.annotation.LoginCheck)")
-	public void checkLogin(JoinPoint joinPoint) {
+	public void checkLogin() {
 		ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 		String token = request.getHeader("Authorization");
@@ -38,9 +38,15 @@ public class LoginCheckAspect {
 			throw new LoginRequiredException();
 		}
 
-		Claims claims = jwtUtil.decode(token.substring(BEARER_PREFIX_LENGTH));
+		String jwtToken = token.substring(BEARER_PREFIX_LENGTH);
+
+		if (!jwtUtil.validate(jwtToken)) {
+			throw new InvalidTokenException(jwtToken);
+		}
+
+		Claims claims = jwtUtil.decode(jwtToken);
 		String userId = claims.get("userId", String.class);
-		
+
 		request.setAttribute("currentUserId", userId);
 	}
 }

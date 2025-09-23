@@ -5,8 +5,6 @@ import java.security.Key;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.moida.exception.InvalidTokenException;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -28,18 +26,26 @@ public class JwtUtil {
 			.compact();
 	}
 
-	public Claims decode(String token) {
+	public boolean validate(String token) {
 		if (token == null || token.isBlank()) {
-			throw new InvalidTokenException(token);
+			return false;
 		}
 		try {
-			return Jwts.parserBuilder()
+			Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
-				.parseClaimsJws(token)
-				.getBody();
+				.parseClaimsJws(token);
+			return true;
 		} catch (SignatureException e) {
-			throw new InvalidTokenException(token);
+			return false;
 		}
+	}
+
+	public Claims decode(String token) {
+		return Jwts.parserBuilder()
+			.setSigningKey(key)
+			.build()
+			.parseClaimsJws(token)
+			.getBody();
 	}
 }
